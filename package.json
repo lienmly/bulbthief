@@ -1,0 +1,33 @@
+{
+  "name": "phaser-es6-webpack",
+  "version": "2.0.0",
+  "description": "A bootstrap project for create games with Phaser + ES6 + Webpack.",
+  "author": "leandro cabrera <leandcabrera@gmail.com>",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack",
+    "deploy": ""
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "babel-eslint": "^9.0.0",
+    "babel-loader": "^8.0.6",
+    "browser-sync": "^2.26.7",
+    "browser-sync-webpack-plugin": "^2.2.2",
+    "eslint": "^5.16.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.17.3",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^4.1.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "expose-loader": "^0.7.3",
+    "webpack": "^4.34.0",
+    "webpack-cli": "^3.3.4"
+  },
+  "dependencies": {
+    "phaser": "^3.0.0-beta.4",
+    "webfontloader": "^1.6.28"
+  }
+}
