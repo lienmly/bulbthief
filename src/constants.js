@@ -1,5 +1,5 @@
 export default {
-  offset: 100,
-  tileSize: 60,
-  gameSize: 7,
+  offset: 100, // Screen top left offset 
+  tileSize: 60, // Size of individual tile 
+  gameSize: 7, // Size of gameboard n*n
 }
