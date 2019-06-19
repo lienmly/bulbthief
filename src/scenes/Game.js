@@ -15,6 +15,7 @@ export default class extends Phaser.Scene {
 
   create() {
     this.createTiles()
+    this.endTiles = this.createEndTiles()
     this.players = []
     this.players[0] = this.createBlob(Math.floor(Constants.gameSize / 2), 0)
     this.players[0].setTint('0xFFC0C0')
@@ -47,6 +48,27 @@ export default class extends Phaser.Scene {
     }
   }
 
+  createEndTiles() {
+    let endTiles = []
+    const gx = Math.floor(Constants.gameSize / 2)
+    endTiles[0] = new Tile({
+      scene: this,
+      gx,
+      gy: -1,
+      canWalk: false
+    })
+    endTiles[1] = new Tile({
+      scene: this,
+      gx,
+      gy: Constants.gameSize,
+      canWalk: false
+    })
+    for (const tile of endTiles) {
+      this.add.existing(tile)
+    }
+    return endTiles
+  }
+
   createBlob(gx, gy) {
     let blob = new Blob({
       scene: this,
@@ -56,9 +78,12 @@ export default class extends Phaser.Scene {
     return blob
   }
 
-  clickTile(gx, gy) {
+  clickTile({tile, gx, gy}) {
     // Don't let the player move if input is blocked.
     if (this.blocked) return
+
+    // If this isn't walkable, stop.
+    if (!tile.canWalk) return
 
     // Get the current player.
     let player = this.players[this.turn]
