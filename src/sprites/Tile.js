@@ -4,13 +4,16 @@ import Constants from '../constants'
 import {g2a} from '../utils'
 
 export default class extends Phaser.GameObjects.Sprite {
-  constructor ({ scene, gx, gy }) {
+  constructor ({ scene, gx, gy, content = null }) {
     super(scene, g2a(gx), g2a(gy), 'tile')
     this.scene = scene
     this.gx = gx
     this.gy = gy
     this.displayWidth = Constants.tileSize
     this.displayHeight = Constants.tileSize
+
+    // What the tile holds (player or item)
+    this.content = content
 
     // Allow this to be interacted with.
     this.setInteractive({ useHandCursor: false })
@@ -25,5 +28,11 @@ export default class extends Phaser.GameObjects.Sprite {
   }
   removeHighlight() {
     this.clearTint()
+  }
+  setContent(content) {
+    this.content = content
+  }
+  getContent(content) {
+    return this.content
   }
 }

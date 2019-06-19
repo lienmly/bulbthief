@@ -10,12 +10,17 @@ export default class extends Phaser.GameObjects.Sprite {
   constructor ({ scene, gx, gy }) {
     super(scene, g2a(gx), g2a(gy), 'blob')
     this.scene = scene
-    this.gx = gx
-    this.gy = gy
     this.displayWidth = Constants.tileSize * SCALE
     this.displayHeight = Constants.tileSize * SCALE
+    this.setPosition({gx,gy}, true)
   }
 
+  setPosition({gx,gy}, clearOldPosition ) { // TODO: fix this function
+    this.scene.setTileContent({gx: this.gx, gy: this.gy}, null)
+    this.gx = gx
+    this.gy = gy
+    this.scene.setTileContent({gx, gy}, this)
+  }
 
   // Move a player to [gx, gy] over time millisecnds.
   // onComplete is called when the tween is completed.
@@ -51,8 +56,7 @@ export default class extends Phaser.GameObjects.Sprite {
         duration: time,
         onComplete: () => {
           // When the animation is done, update position and call back.
-          this.gx = gx
-          this.gy = gy
+          this.setPosition({gx,gy})
           if (onComplete) onComplete()
         }
     })

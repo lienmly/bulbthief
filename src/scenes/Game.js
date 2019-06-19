@@ -14,7 +14,7 @@ export default class extends Phaser.Scene {
   preload(){}
 
   create() {
-    this.createTiles()
+    this.tiles = this.createTiles()
     this.players = []
     this.players[0] = this.createBlob(Math.floor(Constants.gameSize / 2), 0)
     this.players[0].setTint('0xFFC0C0')
@@ -32,8 +32,13 @@ export default class extends Phaser.Scene {
     return null
   }
 
+  setTileContent({gx, gy}, content) {
+    let tile = this.tiles[gy][gx]
+    tile.setContent(content)
+  }
+
   createTiles() {
-    this.tiles = []
+    let tiles = []
     for (let gy=0; gy<Constants.gameSize; gy++) {
       this.tiles[gy] = []
       for (let gx=0; gx<Constants.gameSize; gx++) {
@@ -45,6 +50,7 @@ export default class extends Phaser.Scene {
         this.tiles[gy][gx] = tile
       }
     }
+    return tiles
   }
 
   createBlob(gx, gy) {
