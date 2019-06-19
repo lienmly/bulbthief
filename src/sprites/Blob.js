@@ -9,7 +9,7 @@ const SCALE = 0.7
 export default class extends Phaser.GameObjects.Sprite {
   constructor ({ scene, gx, gy }) {
     super(scene, g2a(gx), g2a(gy), 'blob')
-    this.scene = scene
+    this.game = scene
     this.gx = gx
     this.gy = gy
     this.displayWidth = Constants.tileSize * SCALE
@@ -22,7 +22,7 @@ export default class extends Phaser.GameObjects.Sprite {
   // If test is true, this will only return true or false but not actually move.
   move({gx, gy, time=300, onComplete=null, testMovement=false}) {
     // Check if this move will push another player.
-    let other = this.scene.getPlayerAt(gx, gy)
+    let other = this.game.getPlayerAt(gx, gy)
     if (other != null) {
       // Yes - it pushes another player.
       // Get the delta components of this move.
@@ -44,7 +44,7 @@ export default class extends Phaser.GameObjects.Sprite {
     // Tween to the new position.
     let x = g2a(gx)
     let y = g2a(gy)
-    this.scene.tweens.add({
+    this.game.tweens.add({
         targets: this,
         x, y,
         ease: 'Cubic',
