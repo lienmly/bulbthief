@@ -10,18 +10,19 @@ export default class extends Phaser.GameObjects.Sprite {
   constructor ({ scene, gx, gy }) {
     super(scene, g2a(gx), g2a(gy), 'blob')
     this.game = scene
-    this.gx = gx
-    this.gy = gy
     this.displayWidth = Constants.tileSize * SCALE
     this.displayHeight = Constants.tileSize * SCALE
-    this.setPosition({gx,gy}, true)
+    this.setGamePosition({gx, gy, clearOldPosition:false})
   }
 
-  setPosition({gx,gy}, clearOldPosition ) { // TODO: fix this function
-    this.scene.setTileContent({gx: this.gx, gy: this.gy}, null)
+  setGamePosition({gx, gy, clearOldPosition = true}) {
+    if (clearOldPosition &&
+      typeof this.gx !== 'undefined' && typeof this.gy !== 'undefined') {
+      this.scene.clearTileContent({gx: this.gx, gy: this.gy})
+    }
     this.gx = gx
     this.gy = gy
-    this.scene.setTileContent({gx, gy}, this)
+    this.scene.setTileContent({gx, gy, content:this})
   }
 
   // Move a player to [gx, gy] over time millisecnds.
@@ -58,7 +59,7 @@ export default class extends Phaser.GameObjects.Sprite {
         duration: time,
         onComplete: () => {
           // When the animation is done, update position and call back.
-          this.setPosition({gx,gy})
+          this.setGamePosition({gx,gy})
           if (onComplete) onComplete()
         }
     })

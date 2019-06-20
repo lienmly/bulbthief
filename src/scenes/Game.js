@@ -33,7 +33,11 @@ export default class extends Phaser.Scene {
     return null
   }
 
-  setTileContent({gx, gy}, content) {
+  clearTileContent({gx, gy}) {
+    this.setTileContent({gx, gy, content:null})
+  }
+
+  setTileContent({gx, gy, content}) {
     let tile = this.tiles[gy][gx]
     tile.setContent(content)
   }
@@ -41,14 +45,14 @@ export default class extends Phaser.Scene {
   createTiles() {
     let tiles = []
     for (let gy=0; gy<Constants.gameSize; gy++) {
-      this.tiles[gy] = []
+      tiles[gy] = []
       for (let gx=0; gx<Constants.gameSize; gx++) {
         let tile = new Tile({
           scene: this,
           gx, gy,
         })
         this.add.existing(tile)
-        this.tiles[gy][gx] = tile
+        tiles[gy][gx] = tile
       }
     }
     return tiles
