@@ -40,7 +40,7 @@ export default class extends Phaser.GameObjects.Sprite {
       // They get pushed twice as far.
       let pushedPosition = other.getPushedPosition({ gxd: gxd * 2, gyd: gyd * 2 })
       // If they were able to be pushed, then push them.
-      if (other.gx != pushedPosition.gx || other.gy != pushedPosition.gy) {
+      if (other.gx !== pushedPosition.gx || other.gy !== pushedPosition.gy) {
         if (!testMovement) other.move(pushedPosition)
       } else {
         // Otherwise, this move is impossible.

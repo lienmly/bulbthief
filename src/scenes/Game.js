@@ -1,4 +1,3 @@
-/* globals __DEV__ */
 import Phaser from 'phaser'
 
 import Constants from '../constants'
@@ -28,7 +27,7 @@ export default class extends Phaser.Scene {
 
   getPlayerAt (gx, gy) {
     for (const player of this.players) {
-      if (player.gx == gx && player.gy == gy) return player
+      if (player.gx === gx && player.gy === gy) return player
     }
     return null
   }
@@ -103,7 +102,7 @@ export default class extends Phaser.Scene {
     // Make sure you're only moving 1 tile max per axis and not 0 tiles.
     const gdx = Math.abs(player.gx - gx)
     const gdy = Math.abs(player.gy - gy)
-    if (gdx > 1 || gdy > 1 || (gdx == 0 && gdy == 0)) return
+    if (gdx > 1 || gdy > 1 || (gdx === 0 && gdy === 0)) return
 
     // Time to move the player!
     if (player.move({ gx,
@@ -127,12 +126,10 @@ export default class extends Phaser.Scene {
         const gdx = Math.abs(player.gx - gx)
         const gdy = Math.abs(player.gy - gy)
         tile.removeHighlight()
-        if (gdx <= 1 && gdy <= 1 && !(gdx == 0 && gdy == 0)) {
+        if (gdx <= 1 && gdy <= 1 && !(gdx === 0 && gdy === 0)) {
           if (player.move({ gx, gy, testMovement: true })) tile.setHighlight()
         }
       }
     }
   }
 }
-
-//
