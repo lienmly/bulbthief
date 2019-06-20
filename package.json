@@ -6,7 +6,9 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack",
-    "deploy": ""
+    "deploy": "",
+    "test": "node_modules/.bin/eslint './src/**/*.js'",
+    "fix": "node_modules/.bin/eslint './src/**/*.js' --fix"
   },
   "license": "MIT",
   "devDependencies": {
@@ -17,6 +19,7 @@
     "browser-sync": "^2.26.7",
     "browser-sync-webpack-plugin": "^2.2.2",
     "eslint": "^5.16.0",
+    "eslint-cli": "^1.1.1",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-import": "^2.17.3",
     "eslint-plugin-node": "^7.0.1",

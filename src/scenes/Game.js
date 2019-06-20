@@ -6,14 +6,14 @@ import Blob from '../sprites/Blob'
 import Tile from '../sprites/Tile'
 
 export default class extends Phaser.Scene {
-  constructor(){
+  constructor () {
     super({ key: 'GameScene' })
   }
 
-  init(){}
-  preload(){}
+  init () {}
+  preload () {}
 
-  create() {
+  create () {
     this.tiles = this.createTiles()
     this.endTiles = this.createEndTiles()
     this.players = []
@@ -26,30 +26,31 @@ export default class extends Phaser.Scene {
     this.setHighlights()
   }
 
-  getPlayerAt(gx, gy) {
+  getPlayerAt (gx, gy) {
     for (const player of this.players) {
       if (player.gx == gx && player.gy == gy) return player
     }
     return null
   }
 
-  clearTileContent({gx, gy}) {
-    this.setTileContent({gx, gy, content:null})
+  clearTileContent ({ gx, gy }) {
+    this.setTileContent({ gx, gy, content: null })
   }
 
-  setTileContent({gx, gy, content}) {
+  setTileContent ({ gx, gy, content }) {
     let tile = this.tiles[gy][gx]
     tile.setContent(content)
   }
 
-  createTiles() {
+  createTiles () {
     let tiles = []
-    for (let gy=0; gy<Constants.gameSize; gy++) {
+    for (let gy = 0; gy < Constants.gameSize; gy++) {
       tiles[gy] = []
-      for (let gx=0; gx<Constants.gameSize; gx++) {
+      for (let gx = 0; gx < Constants.gameSize; gx++) {
         let tile = new Tile({
           scene: this,
-          gx, gy,
+          gx,
+          gy
         })
         this.add.existing(tile)
         tiles[gy][gx] = tile
@@ -58,7 +59,7 @@ export default class extends Phaser.Scene {
     return tiles
   }
 
-  createEndTiles() {
+  createEndTiles () {
     let endTiles = []
     const gx = Math.floor(Constants.gameSize / 2)
     endTiles[0] = new Tile({
@@ -79,16 +80,17 @@ export default class extends Phaser.Scene {
     return endTiles
   }
 
-  createBlob(gx, gy) {
+  createBlob (gx, gy) {
     let blob = new Blob({
       scene: this,
-      gx, gy,
+      gx,
+      gy
     })
     this.add.existing(blob)
     return blob
   }
 
-  clickTile({tile, gx, gy}) {
+  clickTile ({ tile, gx, gy }) {
     // Don't let the player move if input is blocked.
     if (this.blocked) return
 
@@ -101,41 +103,36 @@ export default class extends Phaser.Scene {
     // Make sure you're only moving 1 tile max per axis and not 0 tiles.
     const gdx = Math.abs(player.gx - gx)
     const gdy = Math.abs(player.gy - gy)
-    if (gdx > 1 || gdy > 1 || (gdx == 0 && gdy ==0)) return
+    if (gdx > 1 || gdy > 1 || (gdx == 0 && gdy == 0)) return
 
     // Time to move the player!
-    if (player.move({gx, gy, onComplete:()=>{
+    if (player.move({ gx,
+      gy,
+      onComplete: () => {
       // Update the turn when the animation is done.
-      this.turn = 1 - this.turn
-      this.setHighlights()
-      // Unblock the input.
-      this.blocked = false
-    }})) {
+        this.turn = 1 - this.turn
+        this.setHighlights()
+        // Unblock the input.
+        this.blocked = false
+      } })) {
       this.blocked = true
     }
   }
 
-  setHighlights() {
+  setHighlights () {
     let player = this.players[this.turn]
-    for (let gy=0; gy<Constants.gameSize; gy++) {
-      for (let gx=0; gx<Constants.gameSize; gx++) {
+    for (let gy = 0; gy < Constants.gameSize; gy++) {
+      for (let gx = 0; gx < Constants.gameSize; gx++) {
         let tile = this.tiles[gy][gx]
         const gdx = Math.abs(player.gx - gx)
         const gdy = Math.abs(player.gy - gy)
         tile.removeHighlight()
-        if (gdx <= 1 && gdy <= 1 && !(gdx == 0 && gdy ==0)) {
-          if (player.move({gx, gy, testMovement: true})) tile.setHighlight()
+        if (gdx <= 1 && gdy <= 1 && !(gdx == 0 && gdy == 0)) {
+          if (player.move({ gx, gy, testMovement: true })) tile.setHighlight()
         }
       }
     }
   }
 }
-
-
-
-
-
-
-
 
 //

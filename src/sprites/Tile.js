@@ -1,10 +1,10 @@
 import Phaser from 'phaser'
 
 import Constants from '../constants'
-import {g2a} from '../utils'
+import { g2a } from '../utils'
 
 export default class extends Phaser.GameObjects.Sprite {
-    constructor ({ scene, gx, gy, content = null, canWalk=true }) {
+  constructor ({ scene, gx, gy, content = null, canWalk = true }) {
     super(scene, g2a(gx), g2a(gy), 'tile')
     this.game = scene
     this.gx = gx
@@ -20,20 +20,20 @@ export default class extends Phaser.GameObjects.Sprite {
     this.setInteractive({ useHandCursor: false })
     // When clicked, call the scenes clickTile function on this position.
     this.on('pointerup', () => {
-      this.game.clickTile({tile: this, gx: this.gx, gy: this.gy})
+      this.game.clickTile({ tile: this, gx: this.gx, gy: this.gy })
     })
   }
 
-  setHighlight() {
+  setHighlight () {
     this.setTint('0xDDDDDD')
   }
-  removeHighlight() {
+  removeHighlight () {
     this.clearTint()
   }
-  setContent(content) {
+  setContent (content) {
     this.content = content
   }
-  getContent(content) {
+  getContent (content) {
     return this.content
   }
 }

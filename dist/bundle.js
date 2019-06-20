@@ -175,7 +175,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var phas
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = ({\n  offset: 100,\n  // Screen top left offset \n  tileSize: 60,\n  // Size of individual tile \n  gameSize: 7 // Size of gameboard n*n\n\n});\n\n//# sourceURL=webpack:///./src/constants.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony default export */ __webpack_exports__[\"default\"] = ({\n  offset: 100,\n  // Screen top left offset\n  tileSize: 60,\n  // Size of individual tile\n  gameSize: 7 // Size of gameboard n*n\n\n});\n\n//# sourceURL=webpack:///./src/constants.js?");
 
 /***/ }),
 
