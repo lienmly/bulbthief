@@ -33,7 +33,7 @@ export default class extends Phaser.GameObjects.Sprite {
   setContent (content) {
     this.content = content
   }
-  getContent (content) {
+  getContent () {
     return this.content
   }
 }

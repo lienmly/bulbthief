@@ -30,7 +30,7 @@ export default class extends Phaser.GameObjects.Sprite {
   // If test is true, this will only return true or false but not actually move.
   move ({ gx, gy, time = 300, onComplete = null, testMovement = false }) {
     // Check if this move will push another player.
-    let other = this.game.getPlayerAt(gx, gy)
+    let other = this.game.getPlayerAt({gx, gy})
     if (other != null) {
       // Yes - it pushes another player.
       // Get the delta components of this move.
