@@ -1,7 +1,7 @@
 import Phaser from 'phaser'
 
 import Constants from '../constants'
-import { g2a, a2g } from '../utils'
+import { g2a } from '../utils'
 
 // Player appears this much smaller than one tile size.
 const SCALE = 0.7
