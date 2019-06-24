@@ -6,7 +6,7 @@ export default class extends GamePiece {
   constructor ({ game, x, y, headless = false }) {
     let graphics = null
     if (!headless) {
-      graphics = new PlayerGraphics()
+      graphics = new PlayerGraphics({ scene: game.getScene(), x, y })
     }
     super({ game, x, y, graphics })
   }

@@ -2,7 +2,7 @@ import Phaser from 'phaser'
 
 import BootScene from './scenes/Boot'
 import SplashScene from './scenes/Splash'
-import GameScene from './scenes/Game'
+import GameScene from './scenes/Game' // Change this to './scenes/GameScene' for new refactor
 
 import config from './config'
 

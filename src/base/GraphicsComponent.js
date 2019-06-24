@@ -1,7 +1,7 @@
 // Wrapper for any class defining a graphical component.
 export default class {
-  constructor ({ game, x, y }) {
-    this.game = game
+  constructor ({ scene, x, y }) {
+    this.scene = scene
     this.x = x
     this.y = y
   }
@@ -12,7 +12,7 @@ export default class {
   // Move to a specified screen coordinate.
   move ({ x, y, time = 0 }) {
     // Tween to the location.
-    this.game.tweens.add({
+    this.scene.tweens.add({
       targets: this.getSprite(),
       x,
       y,

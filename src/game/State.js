@@ -6,7 +6,7 @@ export default class {
     this.game = game
     this.headless = headless
     this.pieces = createPieces()
-    this.players = createPlayers()
+    this.players = createPlayers({ game, headless })
     this.turn = 0
   }
 }
@@ -24,13 +24,13 @@ function createPieces () {
 }
 
 // Create the two players in their default starting positions.
-function createPlayers ({ headless }) {
+function createPlayers ({ game, headless }) {
   const x = Math.floor(Constants.gameSize / 2)
   const yPositions = [0, Constants.gameSize - 1]
   const players = []
   for (let i = 0; i < 2; i++) {
     const y = yPositions[i]
-    players[i] = new Player({ game: this.game, headless: this.headless, x, y })
+    players[i] = new Player({ game, headless, x, y })
   }
   return players
 }
