@@ -25,8 +25,8 @@ export default class extends Phaser.Scene {
     this.setHighlights()
   }
 
-  getPlayerAt ({gx, gy}) {
-    return this.tiles[gy][gx].getContent(); 
+  getPlayerAt ({ gx, gy }) {
+    return this.tiles[gy][gx].getContent()
   }
 
   clearTileContent ({ gx, gy }) {
