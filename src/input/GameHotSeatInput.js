@@ -1,4 +1,3 @@
-import C from '../constants'
 import { a2g } from '../utils'
 
 // Raw input handler.
