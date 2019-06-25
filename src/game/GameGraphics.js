@@ -5,7 +5,7 @@ import { g2a } from '../utils'
 // Component for game graphics.
 // e.g. any graphics not handled by the game pieces themselves.
 export default class {
-  constructor ({ state, scene }) {
+  constructor ({ scene }) {
     this.scene = scene
     this.tiles = createTiles({ scene })
   }

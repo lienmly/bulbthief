@@ -1,5 +1,6 @@
 import C from '../constants'
 
+// Handles extra visual elements.
 export default class Decorations {
   constructor ({ game, graphics, controller }) {
     this.game = game

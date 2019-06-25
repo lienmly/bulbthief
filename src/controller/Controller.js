@@ -9,9 +9,16 @@ export default class {
   constructor ({ game, state }) {
     this.game = game
     this.state = state
+
+    // Blocked means that input is not allowed (e.g. during tweens).
     this.blocked = true
+
+    // These are arrays of methods to be called when actions begin and end.
     this.actionBeginListeners = []
     this.actionEndListeners = []
+
+    // Array of Actions that have occurred during a player's turn.
+    // Used to determine what they have already done this turn.
     this.turnActions = []
 
     // When the game starts, allow input.
@@ -39,6 +46,12 @@ export default class {
     this.blocked = true
   }
 
+  // Tell the state to change turn and clear local information about this turn.
+  changeTurn () {
+    this.turnActions = []
+    this.state.changeTurn()
+  }
+
   // Called when a player clicks a screen location.
   clickTile ({ x, y }) {
     if (this.blocked) return
@@ -48,19 +61,16 @@ export default class {
     const action = this.getActionForTile({ x, y })
     if (action === null || !action.isValid()) return
 
-    // Block input.
     this.blockInput()
 
-    // Tell listeners an action is beginning.
+    // Notify listeners an action is beginning.
     for (const callback of this.actionBeginListeners) callback()
 
     // Run the action, then allow input when done.
     this.turnActions.push(action)
     action.execute().then(() => {
-      if (!this.anyActionPossible()) {
-        this.turnActions = []
-        this.state.changeTurn()
-      }
+      // If no actions are possible after this one, change turns.
+      if (!this.anyActionPossible()) this.changeTurn()
       // Notify listeners that the action is over.
       for (const callback of this.actionEndListeners) callback()
       this.allowInput()
@@ -73,6 +83,7 @@ export default class {
     const targetPiece = this.state.getPieceAtPosition({ x, y })
 
     const actionArgs = { state: this.state, piece: player, turnActions: this.turnActions, x, y }
+
     // If the targeted location is an empty tile it's a move action.
     if (targetPiece === null) {
       return new PlayerMoveAction(actionArgs)

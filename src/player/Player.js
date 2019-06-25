@@ -1,4 +1,4 @@
-import GamePiece from '../base/GamePiece'
+import GamePiece from '../piece/GamePiece'
 import PlayerGraphics from './PlayerGraphics'
 
 // Wrapper for a Player.

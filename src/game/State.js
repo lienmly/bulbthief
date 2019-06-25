@@ -35,6 +35,7 @@ export default class {
     return this.players[this.turn]
   }
 
+  // Switch the turn to the other player.
   changeTurn () {
     this.turn = 1 - this.turn
   }

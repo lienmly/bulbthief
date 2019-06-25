@@ -1,5 +1,5 @@
 import Phaser from 'phaser'
-import GamePieceGraphics from '../base/GamePieceGraphics'
+import GamePieceGraphics from '../piece/GamePieceGraphics'
 import C from '../constants'
 import { g2a } from '../utils'
 
