@@ -1,13 +1,17 @@
 import { validPosition } from '../utils'
 
-// Action to move a game piece by one tile.
+// Action to move a piece by one tile.
 export default class {
   // Provide the piece to move and the target location.
-  constructor ({ state, piece, x, y }) {
+  constructor ({ state, piece, x, y, minDist = null, maxDist = null, straightLine = true, allowOverlap = false }) {
     this.state = state
     this.piece = piece
     this.x = x
     this.y = y
+    this.minDist = minDist
+    this.maxDist = maxDist
+    this.straightLine = straightLine
+    this.allowOverlap = allowOverlap
   }
 
   // Execute the action.
@@ -25,7 +29,9 @@ export default class {
     if (!validPosition({ x: this.x, y: this.y })) return false
 
     // Check that the target location is empty.
-    if (this.state.getPieceAtPosition({ x: this.x, y: this.y }) !== null) return false
+    if (!this.allowOverlap) {
+      if (this.state.getPieceAtPosition({ x: this.x, y: this.y }) !== null) return false
+    }
 
     // Calculate the distance of the move.
     const deltaX = Math.abs(this.x - this.piece.x)
@@ -34,15 +40,20 @@ export default class {
     // Not a valid move if you don't move.
     if (deltaX === 0 && deltaY === 0) return false
 
-    // Can only move distance one.
-    if (deltaX > 1 || deltaY > 1) return false
+    // Can only move in a straight line.
+    if (this.straightLine) {
+      if (deltaX !== deltaY && !(deltaX === 0 || deltaY === 0)) return false
+    }
+
+    // Can only move distance within minDist and maxDist.
+    if (this.minDist !== null) {
+      if (deltaX < this.minDist && deltaY < this.minDist) return false
+    }
+    if (this.maxDist !== null) {
+      if (deltaX > this.maxDist || deltaY > this.maxDist) return false
+    }
 
     // Valid move.
-    return true
-  }
-
-  // Returns true if this is the last move the player can make.
-  isLastMove () {
     return true
   }
 }

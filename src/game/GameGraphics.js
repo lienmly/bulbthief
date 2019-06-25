@@ -48,7 +48,7 @@ class Tile extends Phaser.GameObjects.Sprite {
     this.depth = C.depth.background
   }
   setHighlight () {
-    this.setTint('0xDDDDDD')
+    this.setTint('0xC0C0C0')
   }
   removeHighlight () {
     this.clearTint()

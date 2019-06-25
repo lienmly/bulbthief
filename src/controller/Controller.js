@@ -1,5 +1,8 @@
+import C from '../constants'
 import { validPosition } from '../utils'
-import MoveAction from '../action/MoveAction'
+import PlayerMoveAction from '../action/PlayerMoveAction'
+import Player from '../player/Player'
+import PlayerPushAction from '../action/PlayerPushAction'
 
 // Takes raw inputs and converts them into meaningful actions.
 export default class {
@@ -9,6 +12,7 @@ export default class {
     this.blocked = true
     this.actionBeginListeners = []
     this.actionEndListeners = []
+    this.turnActions = []
 
     // When the game starts, allow input.
     game.subscribeGameStart(() => { this.allowInput() })
@@ -51,8 +55,10 @@ export default class {
     for (const callback of this.actionBeginListeners) callback()
 
     // Run the action, then allow input when done.
+    this.turnActions.push(action)
     action.execute().then(() => {
-      if (action.isLastMove()) {
+      if (!this.anyActionPossible()) {
+        this.turnActions = []
         this.state.changeTurn()
       }
       // Notify listeners that the action is over.
@@ -66,10 +72,26 @@ export default class {
     const player = this.state.getCurrentPlayer()
     const targetPiece = this.state.getPieceAtPosition({ x, y })
 
+    const actionArgs = { state: this.state, piece: player, turnActions: this.turnActions, x, y }
     // If the targeted location is an empty tile it's a move action.
     if (targetPiece === null) {
-      return new MoveAction({ state: this.state, piece: player, x, y })
+      return new PlayerMoveAction(actionArgs)
+    }
+    // If there's a player there, try to push.
+    if (targetPiece instanceof Player) {
+      return new PlayerPushAction(actionArgs)
     }
     return null
+  }
+
+  // Returns true if there is a move that can be made.
+  anyActionPossible () {
+    for (let y = 0; y < C.gameSize; y++) {
+      for (let x = 0; x < C.gameSize; x++) {
+        const action = this.getActionForTile({ x, y })
+        if (action !== null && action.isValid()) return true
+      }
+    }
+    return false
   }
 }
