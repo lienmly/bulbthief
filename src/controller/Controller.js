@@ -1,7 +1,8 @@
 import C from '../constants'
 import { validPosition } from '../utils'
-import PlayerMoveAction from '../action/PlayerMoveAction'
 import Player from '../player/Player'
+import NoAction from '../action/NoAction'
+import PlayerMoveAction from '../action/PlayerMoveAction'
 import PlayerPushAction from '../action/PlayerPushAction'
 
 // Takes raw inputs and converts them into meaningful actions.
@@ -69,8 +70,8 @@ export default class {
     // Run the action, then allow input when done.
     this.turnActions.push(action)
     action.execute().then(() => {
-      // If no actions are possible after this one, change turns.
-      if (!this.anyActionPossible()) this.changeTurn()
+      // If you skipped your turn, or no actions are possible after this one, change turns.
+      if (action instanceof NoAction || !this.anyActionPossible()) this.changeTurn()
       // Notify listeners that the action is over.
       for (const callback of this.actionEndListeners) callback()
       this.allowInput()
@@ -83,6 +84,11 @@ export default class {
     const targetPiece = this.state.getPieceAtPosition({ x, y })
 
     const actionArgs = { state: this.state, piece: player, turnActions: this.turnActions, x, y }
+
+    // If you click yourself, it's skipping your turn.
+    if (targetPiece === player) {
+      return new NoAction(actionArgs)
+    }
 
     // If the targeted location is an empty tile it's a move action.
     if (targetPiece === null) {
@@ -100,7 +106,7 @@ export default class {
     for (let y = 0; y < C.gameSize; y++) {
       for (let x = 0; x < C.gameSize; x++) {
         const action = this.getActionForTile({ x, y })
-        if (action !== null && action.isValid()) return true
+        if (action !== null && action.isValid() && !(action instanceof NoAction)) return true
       }
     }
     return false

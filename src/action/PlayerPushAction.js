@@ -20,7 +20,7 @@ export default class {
     // Push the other player and tween the current player forward and back.
     const promises = [this.nestedActions[0].execute(),
       this.piece.tween({ x: this.x, y: this.y, time: 150 }).then((result) => {
-        return this.piece.tween({ x: this.piece.x, y: this.piece.y, time: 700 })
+        return this.piece.tween({ x: this.piece.x, y: this.piece.y, time: 700, updateAnimation: false })
       })]
     return Promise.all(promises)
   }

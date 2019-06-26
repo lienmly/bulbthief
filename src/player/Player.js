@@ -2,12 +2,13 @@ import GamePiece from '../piece/GamePiece'
 import PlayerGraphics from './PlayerGraphics'
 
 // Wrapper for a Player.
+// Headless means to not create graphics.
+// Number refers to player 0 or 1 - used for graphics.
 export default class extends GamePiece {
-  constructor ({ game, x, y, headless = false }) {
-    let graphics = null
+  constructor ({ game, x, y, headless = false, number = 0 }) {
+    super({ game, x, y })
     if (!headless) {
-      graphics = new PlayerGraphics({ scene: game.getScene(), x, y })
+      this.setGraphics({ graphics: new PlayerGraphics({ scene: game.getScene(), x, y, number }) })
     }
-    super({ game, x, y, graphics })
   }
 }

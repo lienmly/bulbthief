@@ -47,7 +47,7 @@ export default class {
     const players = []
     for (let i = 0; i < 2; i++) {
       const y = yPositions[i]
-      players[i] = new Player({ game: this.game, headless: this.headless, x, y })
+      players[i] = new Player({ game: this.game, headless: this.headless, x, y, number: i })
       this.setPieceAtPosition({ piece: players[i], x, y })
     }
     return players
