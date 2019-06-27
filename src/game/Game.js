@@ -20,7 +20,7 @@ export default class {
 
     // Create graphics components if not in headless mode.
     if (!headless) {
-      this.graphics = new GameGraphics({ scene })
+      this.graphics = new GameGraphics({ scene, state: this.state })
       this.decorations = new Decorations({ game: this, graphics: this.graphics, controller: this.controller })
     }
 
