@@ -11,6 +11,9 @@ export default class extends GamePieceGraphics {
     scene.add.existing(this.sprite)
   }
 
+  getDrawPosition () {
+    return this.getSprite().getCenter()
+  }
   getSprite () {
     return this.sprite
   }

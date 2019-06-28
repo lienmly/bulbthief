@@ -14,10 +14,6 @@ export default class {
     // Blocked means that input is not allowed (e.g. during tweens).
     this.blocked = true
 
-    // These are arrays of methods to be called when actions begin and end.
-    this.actionBeginListeners = []
-    this.actionEndListeners = []
-
     // Array of Actions that have occurred during a player's turn.
     // Used to determine what they have already done this turn.
     this.turnActions = []
@@ -28,11 +24,23 @@ export default class {
 
   // Allow other methods to be called when an action begins or ends.
   subscribeActionBegin (callback) {
+    if (!this.actionBeginListeners) this.actionBeginListeners = []
     this.actionBeginListeners.push(callback)
   }
 
+  publishActionBegin () {
+    if (!this.actionBeginListeners) return
+    for (const callback of this.actionBeginListeners) callback()
+  }
+
   subscribeActionEnd (callback) {
+    if (!this.actionEndListeners) this.actionEndListeners = []
     this.actionEndListeners.push(callback)
+  }
+
+  publishActionEnd () {
+    if (!this.actionEndListeners) return
+    for (const callback of this.actionEndListeners) callback()
   }
 
   // Allow player to make actions.
@@ -63,17 +71,13 @@ export default class {
     if (action === null || !action.isValid()) return
 
     this.blockInput()
-
-    // Notify listeners an action is beginning.
-    for (const callback of this.actionBeginListeners) callback()
-
+    this.publishActionBegin()
     // Run the action, then allow input when done.
     this.turnActions.push(action)
     action.execute().then(() => {
       // If you skipped your turn, or no actions are possible after this one, change turns.
       if (action instanceof NoAction || !this.anyActionPossible()) this.changeTurn()
-      // Notify listeners that the action is over.
-      for (const callback of this.actionEndListeners) callback()
+      this.publishActionEnd()
       this.allowInput()
     })
   }

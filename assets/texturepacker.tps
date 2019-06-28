@@ -321,8 +321,10 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">images/tile/tile.png</key>
-            <key type="filename">images/tile/tile_n.png</key>
+            <key type="filename">images/tile/tile_0.png</key>
+            <key type="filename">images/tile/tile_0_n.png</key>
+            <key type="filename">images/tile/tile_1.png</key>
+            <key type="filename">images/tile/tile_1_n.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>

@@ -1,11 +1,11 @@
-import C from '../constants'
+import C from '../../constants'
 
-// Handles extra visual elements.
-export default class Decorations {
-  constructor ({ game, graphics, controller }) {
+// Listens to changes in the game to tell graphics to update.
+export default class TileHighlights {
+  constructor ({ game, controller, tiles }) {
     this.game = game
-    this.graphics = graphics
     this.controller = controller
+    this.tiles = tiles
 
     // Subscribe to various events we care about.
     controller.subscribeActionBegin(() => { this.removeHighlights() })
@@ -22,10 +22,10 @@ export default class Decorations {
         if (action !== null && action.isValid()) positions.push({ x, y })
       }
     }
-    this.graphics.setHighlights({ positions })
+    this.tiles.setHighlights({ positions })
   }
 
   removeHighlights () {
-    this.graphics.setHighlights({})
+    this.tiles.setHighlights({})
   }
 }

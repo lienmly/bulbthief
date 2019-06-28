@@ -11,6 +11,10 @@ export default class {
     return null
   }
 
+  getDrawPosition () {
+    return null
+  }
+
   // Tween to a specified screen coordinate.
   // Returns a promise that resolves when the tween is done.
   tween ({ x, y, time }) {

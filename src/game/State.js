@@ -4,9 +4,11 @@ import { validPosition } from '../utils'
 
 // Represents the game state.
 export default class {
-  constructor ({ game, headless = false }) {
+  constructor ({ game, scene, headless }) {
     this.game = game
+    this.scene = scene
     this.headless = headless
+
     this.pieces = this.createPieces()
     this.players = this.createPlayers()
     this.turn = 0
@@ -47,7 +49,7 @@ export default class {
     const players = []
     for (let i = 0; i < 2; i++) {
       const y = yPositions[i]
-      players[i] = new Player({ game: this.game, headless: this.headless, x, y, number: i })
+      players[i] = new Player({ game: this.game, scene: this.scene, headless: this.headless, x, y, number: i })
       this.setPieceAtPosition({ piece: players[i], x, y })
     }
     return players

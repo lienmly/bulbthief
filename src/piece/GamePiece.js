@@ -16,6 +16,11 @@ export default class {
     this.graphics = graphics
   }
 
+  // Return the center coordinates of the piece's sprite.
+  getDrawPosition () {
+    return this.graphics.getDrawPosition()
+  }
+
   // Tween a piece to a location.
   // Returns a Promise which resolves when the movement is done.
   tween ({ x, y, time = 350, updateAnimation = true }) {

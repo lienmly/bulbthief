@@ -12,4 +12,7 @@ export default class extends Phaser.Scene {
   create () {
     this.game = new Game({ scene: this })
   }
+  update (time, delta) {
+    this.game.update({ time, delta })
+  }
 }
