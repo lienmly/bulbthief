@@ -1,17 +1,33 @@
 import C from '../constants'
 import Player from '../player/Player'
 import { validPosition } from '../utils'
+import StateGraphics from './graphics/StateGraphics'
+import Subscribable from '../subscribable/Subscribable'
 
 // Represents the game state.
-export default class {
-  constructor ({ game, scene, headless }) {
+export default class extends Subscribable({}) {
+  constructor ({ game }) {
+    super()
     this.game = game
-    this.scene = scene
-    this.headless = headless
 
-    this.pieces = this.createPieces()
-    this.players = this.createPlayers()
-    this.turn = 0
+    game.subscribePrepare(({ scene, controller, headless }) => {
+      this.scene = scene
+      this.controller = controller
+      this.headless = headless
+
+      this.turn = 0
+      this.pieces = this.createPieces()
+      this.players = this.createPlayers()
+
+      if (!headless) {
+        this.graphics = new StateGraphics({ state: this })
+      }
+      this.publishPrepare({
+        scene, controller, headless
+      })
+    })
+    game.subscribeStart(() => { this.publishStart({}) })
+    game.subscribeUpdate((opts) => { this.publishUpdate(opts) })
   }
 
   // Return the piece at a given tile position.

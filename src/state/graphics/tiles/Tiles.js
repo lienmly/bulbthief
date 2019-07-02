@@ -1,11 +1,20 @@
 import Phaser from 'phaser'
-import C from '../../constants'
-import { g2a } from '../../utils'
+import C from '../../../constants'
+import { g2a } from '../../../utils'
+import TileHighlights from './TileHighlights'
+import Subscribable from '../../../subscribable/Subscribable'
 
-export default class Tiles {
-  constructor ({ scene }) {
-    this.scene = scene
-    this.tiles = this.createTiles()
+export default class Tiles extends Subscribable({}) {
+  constructor ({ stateGraphics }) {
+    super()
+    stateGraphics.subscribePrepare(({ scene, controller }) => {
+      this.scene = scene
+      this.controller = controller
+      this.tiles = this.createTiles()
+      this.tileHighlights = new TileHighlights({ tiles: this })
+      this.publishPrepare({ controller })
+    })
+    stateGraphics.subscribeStart(() => { this.publishStart({}) })
   }
   // Create the tile sprites that act as the game board.
   createTiles () {

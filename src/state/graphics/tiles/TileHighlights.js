@@ -1,16 +1,17 @@
-import C from '../../constants'
+import C from '../../../constants'
 
 // Listens to changes in the game to tell graphics to update.
 export default class TileHighlights {
-  constructor ({ game, controller, tiles }) {
-    this.game = game
-    this.controller = controller
-    this.tiles = tiles
-
-    // Subscribe to various events we care about.
-    controller.subscribeActionBegin(() => { this.removeHighlights() })
-    controller.subscribeActionEnd(() => { this.setHighlights() })
-    game.subscribeGameStart(() => { this.setHighlights() })
+  constructor ({ tiles }) {
+    tiles.subscribePrepare(({ controller }) => {
+      this.controller = controller
+      this.tiles = tiles
+      controller.subscribeActionBegin(() => { this.removeHighlights() })
+      controller.subscribeActionEnd(() => { this.setHighlights() })
+    })
+    tiles.subscribeStart(() => {
+      this.setHighlights()
+    })
   }
 
   // Highlights an array of positions and returns the rest to normal.

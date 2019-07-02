@@ -4,10 +4,14 @@ import { a2g } from '../utils'
 // HotSeat means it's for two players sharing a computer and taking turns.
 // Calls the Game's Controller to transform raw inputs into actions.
 export default class {
-  constructor ({ scene, controller }) {
-    this.scene = scene
-    this.controller = controller
-    this.setupInputHandler()
+  constructor ({ game }) {
+    game.subscribePrepare(({ scene, controller }) => {
+      this.scene = scene
+      this.controller = controller
+    })
+    game.subscribeStart(() => {
+      this.setupInputHandler()
+    })
   }
 
   setupInputHandler () {

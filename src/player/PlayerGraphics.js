@@ -33,7 +33,7 @@ export default class extends GamePieceGraphics {
         sprite.animateDirection({ direction: 'up' })
       }
     }
-    return super.tween({ x, y, time })
+    return super.tween({ x, y: y - C.tileSize * 0.15, time })
   }
 }
 

@@ -7,10 +7,7 @@ import PlayerPushAction from '../action/PlayerPushAction'
 
 // Takes raw inputs and converts them into meaningful actions.
 export default class {
-  constructor ({ game, state }) {
-    this.game = game
-    this.state = state
-
+  constructor ({ game }) {
     // Blocked means that input is not allowed (e.g. during tweens).
     this.blocked = true
 
@@ -18,8 +15,12 @@ export default class {
     // Used to determine what they have already done this turn.
     this.turnActions = []
 
-    // When the game starts, allow input.
-    game.subscribeGameStart(() => { this.allowInput() })
+    game.subscribePrepare(({ state }) => {
+      this.state = state
+    })
+    game.subscribeStart(() => {
+      this.allowInput()
+    })
   }
 
   // Allow other methods to be called when an action begins or ends.

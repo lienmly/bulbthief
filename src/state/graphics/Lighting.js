@@ -2,12 +2,16 @@ import Phaser from 'phaser'
 import C from '../../constants'
 
 export default class Lighting {
-  constructor ({ game, state, scene }) {
-    this.game = game
-    this.state = state
-    this.scene = scene
-
-    this.setupLights()
+  constructor ({ stateGraphics }) {
+    stateGraphics.subscribePrepare(({ state, scene, controller }) => {
+      this.state = state
+      this.scene = scene
+      this.controller = controller
+    })
+    stateGraphics.subscribeStart(() => {
+      this.setupLights()
+    })
+    stateGraphics.subscribeUpdate(({ time, delta }) => { this.updateLights({ time, delta }) })
   }
 
   setupLights () {
@@ -40,9 +44,6 @@ export default class Lighting {
       this.pointerX = pointer.x
       this.pointerY = pointer.y
     })
-
-    // Listen for game updates.
-    this.game.subscribeGameUpdate(({ time, delta }) => { this.updateLights({ time, delta }) })
   }
 
   updateLights ({ time, delta }) {
